@@ -131,22 +131,22 @@ Show images with normal shading for a few small .dae files. -->
   <table style="width:100%">
     <tr align="center">
       <td>
-        <img src="CBspheres.png" align="middle" width="400px"/>
+        <img src="images/CBspheres.png" align="middle" width="400px"/>
         <figcaption>CBspheres.dae</figcaption>
       </td>
       <td>
-        <img src="CBempty.png" align="middle" width="400px"/>
+        <img src="images/CBempty.png" align="middle" width="400px"/>
         <figcaption>CBempty.dae</figcaption>
       </td>
     </tr>
     <tr align="center">
       <td>
-        <img src="images/your_file.png" align="middle" width="400px"/>
-        <figcaption>example3.dae</figcaption>
+        <img src="images/bench.png" align="middle" width="400px"/>
+        <figcaption>bench.dae</figcaption>
       </td>
       <td>
-        <img src="images/your_file.png" align="middle" width="400px"/>
-        <figcaption>example4.dae</figcaption>
+        <img src="images/banana.png" align="middle" width="400px"/>
+        <figcaption>banana.dae</figcaption>
       </td>
     </tr>
   </table>
@@ -163,7 +163,7 @@ Compare rendering times on a few scenes with moderately complex geometries with 
   Walk through your BVH construction algorithm. Explain the heuristic you chose for picking the splitting point.
 </h3>
 <p>
-    YOUR RESPONSE GOES HERE
+    My construction algorithm first expands the bounding box of node passed into the construction function. If this node has less primitives than the maximum primitives allowed, it is a leaf node and it is returned. If it has more primitives than allowed, I assign a list of primitives to the left and right children of the node, splitting based on the splitting point. The heuristic I chose for my splitting point was the midpoint of the axis relative to the bounding boxes. It was the exact middle point on the axis between the minimum bounding box and the maximum bounding box.
 </p>
 
 <h3>
@@ -174,22 +174,22 @@ Compare rendering times on a few scenes with moderately complex geometries with 
   <table style="width:100%">
     <tr align="center">
       <td>
-        <img src="images/your_file.png" align="middle" width="400px"/>
-        <figcaption>example1.dae</figcaption>
+        <img src="images/maxplanck.png" align="middle" width="400px"/>
+        <figcaption>maxplanck.dae</figcaption>
       </td>
       <td>
-        <img src="images/your_file.png" align="middle" width="400px"/>
-        <figcaption>example2.dae</figcaption>
+        <img src="images/blob.png" align="middle" width="400px"/>
+        <figcaption>blob.dae</figcaption>
       </td>
     </tr>
     <tr align="center">
       <td>
-        <img src="images/your_file.png" align="middle" width="400px"/>
-        <figcaption>example3.dae</figcaption>
+        <img src="images/CBlucy.png" align="middle" width="400px"/>
+        <figcaption>CBlucy.dae</figcaption>
       </td>
       <td>
-        <img src="images/your_file.png" align="middle" width="400px"/>
-        <figcaption>example4.dae</figcaption>
+        <img src="images/dragon.png" align="middle" width="400px"/>
+        <figcaption>dragon.dae</figcaption>
       </td>
     </tr>
   </table>
@@ -200,7 +200,7 @@ Compare rendering times on a few scenes with moderately complex geometries with 
   Compare rendering times on a few scenes with moderately complex geometries with and without BVH acceleration. Present your results in a one-paragraph analysis.
 </h3>
 <p>
-    YOUR RESPONSE GOES HERE
+    When attempting to render some of the larger geometries like CBlucy and blob, it is unviable to render because the wait times are so long. It would take nearly 30 seconds for one percent of the image to render, and I did not wait to see how long these images would take to render naively. When rendering the moderately complex geometries the 8.7 MB dragon took 518.8349s, 3.4 MB Max Planck took 248.7824s, and 4.3 MB beast took 401.1468s. Comparing these with the accelerated times of 0.1783s, 0.2052s, 0.1915s, the empirical speedups for the geometries were 2910x, 1212x, and 2095x for the dragon, Max Planck, and the beast respectively.
 </p>
 <br>
 
@@ -214,7 +214,9 @@ Compare the results between uniform hemisphere sampling and lighting sampling in
   Walk through both implementations of the direct lighting function.
 </h3>
 <p>
-    YOUR RESPONSE GOES HERE
+For implementing direct lighting by uniform hemisphere sampling, I first sampled unit hemisphere and converted it to the world camera by multiplying by the origin to world matrix. I then generated a new ray sampleRay with the hit point of the ray as the origin of sampleRay, and the direction of sampleRay as the uniform hemisphere random sample in world view. Using the Bounding Volume Hierarchy for fast Ray-Primitive intersection, I checked whether sampleRay intersected with any of the primitives in the scene. If it does intersect, then we add emission * reflectance * cos(unif_random_sample) * 2 to our running sum. I ran this process as many times as requested by the number of samples, and I divided the running sum by the number of samples to return the average light of the samples.
+
+To implement light sampling, we loop through the number of lights in the scene. If the scene light is a point light source, we only sample once since all the samples from the point light are the same, but if it is not, we sample the number of times indicated by the number of samples argument passed in. If the light sample is in a valid (positive) direction, it checks whether or not the light sample intersects with any of the primitives in the scene. If it does, it casts a shadow on that pixel and should not add light, but if it doesn't, it should add light to that pixel. If the ray does not intersect any primitive, add it to the light of that pixel with a calculation similar to the uniform hemisphere sampling: light sample * cos(sample direction) * reflectance / light distribution. The light is added directly if it not a point light source, but averaged if it is not a point light source.
 </p>
 
 <h3>
@@ -235,23 +237,23 @@ Compare the results between uniform hemisphere sampling and lighting sampling in
     <br>
     <tr align="center">
       <td>
-        <img src="images/your_file.png" align="middle" width="400px"/>
-        <figcaption>example1.dae</figcaption>
+        <img src="images/CBbunny_H_64_32.png" align="middle" width="400px"/>
+        <figcaption>CBbunny.dae</figcaption>
       </td>
       <td>
-        <img src="images/your_file.png" align="middle" width="400px"/>
-        <figcaption>example1.dae</figcaption>
+        <img src="images/CBbunny_64_32.png" align="middle" width="400px"/>
+        <figcaption>CBbunny.dae</figcaption>
       </td>
     </tr>
     <br>
     <tr align="center">
       <td>
-        <img src="images/your_file.png" align="middle" width="400px"/>
-        <figcaption>example2.dae</figcaption>
+        <img src="images/CBcoil_H_64_32.png" align="middle" width="400px"/>
+        <figcaption>CBcoil.dae</figcaption>
       </td>
       <td>
-        <img src="images/your_file.png" align="middle" width="400px"/>
-        <figcaption>example2.dae</figcaption>
+        <img src="images/CBcoil_64_32.png" align="middle" width="400px"/>
+        <figcaption>CBcoil.dae</figcaption>
       </td>
     </tr>
     <br>
@@ -267,28 +269,28 @@ Compare the results between uniform hemisphere sampling and lighting sampling in
   <table style="width:100%">
     <tr align="center">
       <td>
-        <img src="images/your_file.png" align="middle" width="200px"/>
-        <figcaption>1 Light Ray (example1.dae)</figcaption>
+        <img src="images/bunny_64_32_1.png" align="middle" width="200px"/>
+        <figcaption>1 Light Ray (CBbunny.dae)</figcaption>
       </td>
       <td>
-        <img src="images/your_file.png" align="middle" width="200px"/>
-        <figcaption>4 Light Rays (example1.dae)</figcaption>
+        <img src="images/bunny_64_32_4.png" align="middle" width="200px"/>
+        <figcaption>4 Light Rays (CBbunny.dae)</figcaption>
       </td>
     </tr>
     <tr align="center">
       <td>
-        <img src="images/your_file.png" align="middle" width="200px"/>
-        <figcaption>16 Light Rays (example1.dae)</figcaption>
+        <img src="images/bunny_64_32_16.png" align="middle" width="200px"/>
+        <figcaption>16 Light Rays (CBbunny.dae)</figcaption>
       </td>
       <td>
-        <img src="images/your_file.png" align="middle" width="200px"/>
-        <figcaption>64 Light Rays (example1.dae)</figcaption>
+        <img src="images/bunny_64_32_64.png" align="middle" width="200px"/>
+        <figcaption>64 Light Rays (CBbunny.dae)</figcaption>
       </td>
     </tr>
   </table>
 </div>
 <p>
-    YOUR EXPLANATION GOES HERE
+   From the photos, it is clear to see that the photos that use less light rays are noisier and the photos that use more light rays are less noisy. Looking specifically at the soft shadows, they are also noiser with less light rays and less noisy with more light rays, as with less light rays the shadows extend out further than with more light rays and are harsher, darker colors. With more light rays, the soft shadows are less harsh and dark around the edges and appear softer than with less light rays.
 </p>
 <br>
 
@@ -296,7 +298,7 @@ Compare the results between uniform hemisphere sampling and lighting sampling in
   Compare the results between uniform hemisphere sampling and lighting sampling in a one-paragraph analysis.
 </h3>
 <p>
-    YOUR RESPONSE GOES HERE
+    In the uniform hemisphere sampling, the image appears more noisy. This is because the lighting of the pixels is uniform across all of them. Although some of the radiance of some of the parts of the image appear to be the right color, many of the pixels seem to be darker than they should be. This is due to the lighting being an average of uniform random sample, so some of the lighting will be more accurate than others due to chance. Lighting sampling, on the other hand, appears to be sharper lighting, rendering lighting in a way that is more accurate in terms of radiance across all parts of the image.
 </p>
 <br>
 
@@ -313,8 +315,7 @@ You will probably want to use the instructional machines for the above renders i
   Walk through your implementation of the indirect lighting function.
 </h3>
 <p>
-    YOUR RESPONSE GOES HERE
-</p>
+    For my indirect lighting function, I first initialized my output light as the once bounce radiance with the current ray and intersection. I take a sample from the bsdf to see how much radiance the material should give and store it in bsdf. My base cases for the recursive algorithm are if the max_ray_depth is 0, I will return an empty 3D vector, and if the ray depth is 1, I will return the current light output. I implemented russian roulette by only continuing recursion with a probability of 0.7 or if we are on the top of the recursion stack where the ray depth is the max_ray_depth. I calculate the bounced ray by using the hit point as its origin and its converted world coordinates as direction, and I set ists maximum depth to be the current ray's max depth - 1. I check if the bounced ray intersects with any primitives in the scene. If it does, I enter a recursive call that will calculate the sum of the radiance/output light for the bounces that happen after this one. I weight this light by the radiance of the material (bsdf), direction of the ray, the pdf determined by the bsdf shape, and the roulette probability. If isAccumBounces is set to false, I return this weighted sample, but if I should accumulate, I add this light to the current output light I already have and return the updated output light.
 <br>
 
 <h3>
@@ -325,12 +326,12 @@ You will probably want to use the instructional machines for the above renders i
   <table style="width:100%">
     <tr align="center">
       <td>
-        <img src="images/your_file.png" align="middle" width="400px"/>
-        <figcaption>example1.dae</figcaption>
+        <img src="images/spheres.png" align="middle" width="400px"/>
+        <figcaption>CBspheres_lambertian.dae</figcaption>
       </td>
       <td>
-        <img src="images/your_file.png" align="middle" width="400px"/>
-        <figcaption>example2.dae</figcaption>
+        <img src="images/bunny.png" align="middle" width="400px"/>
+        <figcaption>CBbunny.dae</figcaption>
       </td>
     </tr>
   </table>
@@ -345,62 +346,149 @@ You will probably want to use the instructional machines for the above renders i
   <table style="width:100%">
     <tr align="center">
       <td>
-        <img src="images/your_file.png" align="middle" width="400px"/>
-        <figcaption>Only direct illumination (example1.dae)</figcaption>
+        <img src="images/bunny_dir.png" align="middle" width="400px"/>
+        <figcaption>Only direct illumination (CBbunny.dae)</figcaption>
       </td>
       <td>
-        <img src="images/your_file.png" align="middle" width="400px"/>
-        <figcaption>Only indirect illumination (example1.dae)</figcaption>
+        <img src="images/bunny_indir.png" align="middle" width="400px"/>
+        <figcaption>Only indirect illumination (CBbunny.dae)</figcaption>
       </td>
     </tr>
   </table>
 </div>
 <br>
 <p>
-    YOUR EXPLANATION GOES HERE
+    For the direct illumination, I only show light that is generated by zero or once bounce radiance. Since the light is coming from the box on the ceiling, the box on the ceiling is lit up, and the light that is shining on to the top of the bunny and on to the walls of the room is shown. In the indirect illumination, only light that has had 2 bounces or more is shown. Light that has already bounced of the top of the bunny or from the side of the walls that had come from the light on the ceiling is shown. The box of light on the ceiling is black because it does not fit this category, but the walls are still lit because the light that has bounced from one wall to other walls is shown. Some of the features of the bunny that were dark in direct lighting are lit in the indirect lighting, as light that is bouncing from the walls are able to light up these dark spots through indirect lighting.
 </p>
 <br>
 
 <h3>
-  For CBbunny.dae, compare rendered views with max_ray_depth set to 0, 1, 2, 3, and 100 (the -m flag). Use 1024 samples per pixel.
+For CBbunny.dae, render the mth bounce of light with max_ray_depth set to 0, 1, 2, 3, 4, and 5 (the -m flag), and isAccumBounces=false. Explain in your writeup what you see for the 2nd and 3rd bounce of light, and how it contributes to the quality of the rendered image compared to rasterization. Use 1024 samples per pixel.
+</h3>
+
+<div align="middle">
+  <table style="width:100%">
+    <tr align="center">
+      <td>
+        <img src="images/bunny_bounce_0.png" align="middle" width="400px"/>
+        <figcaption>max_ray_depth = 0 (CBbunny.dae)</figcaption>
+      </td>
+      <td>
+        <img src="images/bunny_bounce_1.png" align="middle" width="400px"/>
+        <figcaption>max_ray_depth = 1 (CBbunny.dae)</figcaption>
+      </td>
+    </tr>
+    <tr align="center">
+      <td>
+        <img src="images/bunny_bounce_2.png" align="middle" width="400px"/>
+        <figcaption>max_ray_depth = 2 (CBbunny.dae)</figcaption>
+      </td>
+      <td>
+        <img src="images/bunny_bounce_3.png" align="middle" width="400px"/>
+        <figcaption>max_ray_depth = 3 (CBbunny.dae)</figcaption>
+      </td>
+    </tr>
+    <tr align="center">
+        <td>
+          <img src="images/bunny_bounce_4.png" align="middle" width="400px"/>
+          <figcaption>max_ray_depth = 4 (CBbunny.dae)</figcaption>
+        </td>
+      <td>
+        <img src="images/bunny_bounce_5.png" align="middle" width="400px"/>
+        <figcaption>max_ray_depth = 5 (CBbunny.dae)</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+<br>
+<p>
+    In the second and third bounces of light, it is shows light that has already bounced off a surface and the light that has already bounced off two surfaces respectively. The light for the second bounce of light lights up much of corners of the walls as well as the underside of the bunny. Since the light is coming from overhead, the underside part of the bunny casts and a shadow and is dark. By calculating the bounces of this light, we are able to light up this part of the bunny to see it better and have a more accurate rendering. The third bounce is a little more subtle, lighting up certain edges of the bunny as well as edges of the room. These nuances are able to show more of the subtleties of the light and capture the global illumination better than rasterization, which only captures more of the local illumination. It is difficult to calculate where the second and third bounces of light are going and where they are represented in a scene only using rasterization, and this is where ray tracing can be more powerful than rasterization.
+</p>
+<br>
+
+<h3>
+For CBbunny.dae, compare rendered views with max_ray_depth set to 0, 1, 2, 3, 4, and 5(the -m flag). Use 1024 samples per pixel.
+</h3>
+
+<div align="middle">
+  <table style="width:100%">
+    <tr align="center">
+      <td>
+        <img src="images/bunny_norus_0.png" align="middle" width="400px"/>
+        <figcaption>max_ray_depth = 0 (CBbunny.dae)</figcaption>
+      </td>
+      <td>
+        <img src="images/bunny_norus_1.png" align="middle" width="400px"/>
+        <figcaption>max_ray_depth = 1 (CBbunny.dae)</figcaption>
+      </td>
+    </tr>
+    <tr align="center">
+      <td>
+        <img src="images/bunny_norus_2.png" align="middle" width="400px"/>
+        <figcaption>max_ray_depth = 2 (CBbunny.dae)</figcaption>
+      </td>
+      <td>
+        <img src="images/bunny_norus_3.png" align="middle" width="400px"/>
+        <figcaption>max_ray_depth = 3 (CBbunny.dae)</figcaption>
+      </td>
+    </tr>
+    <tr align="center">
+        <td>
+          <img src="images/bunny_norus_4.png" align="middle" width="400px"/>
+          <figcaption>max_ray_depth = 4 (CBbunny.dae)</figcaption>
+        </td>
+      <td>
+        <img src="images/bunny_norus_5.png" align="middle" width="400px"/>
+        <figcaption>max_ray_depth = 5 (CBbunny.dae)</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+<br>
+<p>
+   With a max_ray_depth of 0, the scene only shows the light source, which is the ceiling light. The rest of the scene is dark. With a depth of 1, it also shows where this ceiling light bounces onto, lighting up the room and the top parts of the bunny. A depth of 2 shows further bounces of these rays of light, lighting up the corners of the room more and lighting up the bottom part of the bunny that was previously in the shadows from the light overhead. As we continue to increase the max ray depth, the scene gets more a more lit as more and more of the light is being bounced and shown. In particular, the smaller edges of the bunny that are usually dark become lighter, and the edges and corners of the room become brighter. As we increase the max ray depth, the bunny and the room get brighter as there is more light being added to the scene by the information added by the bounces of light.
+</p>
+<br>
+
+<h3>
+    For CBbunny.dae, output the Russian Roulette rendering with max_ray_depth set to 0, 1, 2, 3, 4, and 100(the -m flag). Use 1024 samples per pixel.
 </h3>
 <!-- Example of including multiple figures -->
 <div align="middle">
   <table style="width:100%">
     <tr align="center">
       <td>
-        <img src="images/your_file.png" align="middle" width="400px"/>
+        <img src="images/bunny_m_0.png" align="middle" width="400px"/>
         <figcaption>max_ray_depth = 0 (CBbunny.dae)</figcaption>
       </td>
       <td>
-        <img src="images/your_file.png" align="middle" width="400px"/>
+        <img src="images/bunny_m_1.png" align="middle" width="400px"/>
         <figcaption>max_ray_depth = 1 (CBbunny.dae)</figcaption>
       </td>
     </tr>
     <tr align="center">
       <td>
-        <img src="images/your_file.png" align="middle" width="400px"/>
+        <img src="images/bunny_m_2.png" align="middle" width="400px"/>
         <figcaption>max_ray_depth = 2 (CBbunny.dae)</figcaption>
       </td>
       <td>
-        <img src="images/your_file.png" align="middle" width="400px"/>
+        <img src="images/bunny_m_3.png" align="middle" width="400px"/>
         <figcaption>max_ray_depth = 3 (CBbunny.dae)</figcaption>
       </td>
     </tr>
     <tr align="center">
+        <td>
+          <img src="images/bunny_m_4.png" align="middle" width="400px"/>
+          <figcaption>max_ray_depth = 4 (CBbunny.dae)</figcaption>
+        </td>
       <td>
-        <img src="images/your_file.png" align="middle" width="400px"/>
+        <img src="images/bunny_m_100.png" align="middle" width="400px"/>
         <figcaption>max_ray_depth = 100 (CBbunny.dae)</figcaption>
       </td>
     </tr>
   </table>
 </div>
 <br>
-<p>
-    YOUR EXPLANATION GOES HERE
-</p>
-<br>
-
 <h3>
   Pick one scene and compare rendered views with various sample-per-pixel rates, including at least 1, 2, 4, 8, 16, 64, and 1024. Use 4 light rays.
 </h3>
@@ -409,45 +497,45 @@ You will probably want to use the instructional machines for the above renders i
   <table style="width:100%">
     <tr align="center">
       <td>
-        <img src="images/your_file.png" align="middle" width="400px"/>
-        <figcaption>1 sample per pixel (example1.dae)</figcaption>
+        <img src="images/bunny_s1.png" align="middle" width="400px"/>
+        <figcaption>1 sample per pixel (CBbunny.dae)</figcaption>
       </td>
       <td>
-        <img src="images/your_file.png" align="middle" width="400px"/>
-        <figcaption>2 samples per pixel (example1.dae)</figcaption>
-      </td>
-    </tr>
-    <tr align="center">
-      <td>
-        <img src="images/your_file.png" align="middle" width="400px"/>
-        <figcaption>4 samples per pixel (example1.dae)</figcaption>
-      </td>
-      <td>
-        <img src="images/your_file.png" align="middle" width="400px"/>
-        <figcaption>8 samples per pixel (example1.dae)</figcaption>
+        <img src="images/bunny_s2.png" align="middle" width="400px"/>
+        <figcaption>2 samples per pixel (CBbunny.dae)</figcaption>
       </td>
     </tr>
     <tr align="center">
       <td>
-        <img src="images/your_file.png" align="middle" width="400px"/>
-        <figcaption>16 samples per pixel (example1.dae)</figcaption>
+        <img src="images/bunny_s4.png" align="middle" width="400px"/>
+        <figcaption>4 samples per pixel (CBbunny.dae)</figcaption>
       </td>
       <td>
-        <img src="images/your_file.png" align="middle" width="400px"/>
-        <figcaption>64 samples per pixel (example1.dae)</figcaption>
+        <img src="images/bunny_s8.png" align="middle" width="400px"/>
+        <figcaption>8 samples per pixel (CBbunny.dae)</figcaption>
       </td>
     </tr>
     <tr align="center">
       <td>
-        <img src="images/your_file.png" align="middle" width="400px"/>
-        <figcaption>1024 samples per pixel (example1.dae)</figcaption>
+        <img src="images/bunny_s16.png" align="middle" width="400px"/>
+        <figcaption>16 samples per pixel (CBbunny.dae)</figcaption>
+      </td>
+      <td>
+        <img src="images/bunny_s64.png" align="middle" width="400px"/>
+        <figcaption>64 samples per pixel (CBbunny.dae)</figcaption>
+      </td>
+    </tr>
+    <tr align="center">
+      <td>
+        <img src="images/bunny_s1024.png" align="middle" width="400px"/>
+        <figcaption>1024 samples per pixel (CBbunny.dae)</figcaption>
       </td>
     </tr>
   </table>
 </div>
 <br>
 <p>
-    YOUR EXPLANATION GOES HERE
+    As we add more samples per pixel, the image gets less noisy. If we have less samples per pixel, there is a greater chance that the pixel value sampled will be the wrong color than expected in the image, and this is seen when the pixels . However, as we sample more pixels, there is a greater chance the value of the pixel will be closer to the value we expect, and this is seen when the images with more samples per pixel are clearer and appear sharper.
 </p>
 <br>
 
@@ -460,7 +548,10 @@ Pick one scene and render it with at least 2048 samples per pixel. Show a good s
   Explain adaptive sampling. Walk through your implementation of the adaptive sampling.
 </h3>
 <p>
-    YOUR RESPONSE GOES HERE
+Adaptive sampling is the technique of only sampling in dense areas in order to avoid oversampling in areas that it is not necessary to. Adaptive sampling samples until convergence, at which point sampling will give dimishing returns. In order to implement adaptive sampling, we need to know the density of a distribution of an image, and calculating this distribution involves computing the mean and variance at certain pixel. From these parameters, we can calculate I = 1.96 * sqrt(variance)/sqrt(samples), and we can stop sampling based on the rule I less than equal to maxTolerance * mean, where maxTolerance is a hyperparameter. If this rule is true, we assume our pixel has reached convergence, and we stop sampling.
+</p>
+<p>
+    In my implementation of adaptive sampling, I kept my original algorithm for rayracing a pixel, but made a few adjustments. I separated my algorithm into two cases: num_samples = 1, and num_samples != 1. If num_samples is 1, I generated a ray based off the normalized coordinates of x and y, set the ray depth to the max_ray_depth, and updated the sample buffer pixel based off the new estimated radiance at this point. If num_samples != 1, I looped through the number of samples. I performed a similar operation of calculating a random sample centered at x and y, normalized this sample, and generated a ray given these coordinates. I set the ray depth to be the current max ray depth. I kept a running sum of the estimated global illumination as well for each of these rays. I calculated the illuminance and illuminance squared, and if the count of my loop at this point was a multiple of my samplesPerBatch (so I do not need to check this every time I loop through), I calculated the mean, variance, and convergence of this sample at this point in the loop. If my convergence is less than the maxTolerance * mean, then I will break out of this loop, as this sample has converged for this point and no extra calculations are necessary. I divide my running sum by the number of counts in order to give an average, and I updated the sampleCountBuffer at this point to the count, and updated the pixel value to the calculated average.
 </p>
 <br>
 
@@ -472,22 +563,22 @@ Pick one scene and render it with at least 2048 samples per pixel. Show a good s
   <table style="width:100%">
     <tr align="center">
       <td>
-        <img src="images/your_file.png" align="middle" width="400px"/>
-        <figcaption>Rendered image (example1.dae)</figcaption>
+        <img src="images/bunny_adapt.png" align="middle" width="400px"/>
+        <figcaption>Rendered image (CBbunny.dae)</figcaption>
       </td>
       <td>
-        <img src="images/your_file.png" align="middle" width="400px"/>
-        <figcaption>Sample rate image (example1.dae)</figcaption>
+        <img src="images/bunny_adapt_rate.png" align="middle" width="400px"/>
+        <figcaption>Sample rate image (CBbunny.dae)</figcaption>
       </td>
     </tr>
     <tr align="center">
       <td>
-        <img src="images/your_file.png" align="middle" width="400px"/>
-        <figcaption>Rendered image (example2.dae)</figcaption>
+        <img src="images/spheres_adapt.png" align="middle" width="400px"/>
+        <figcaption>Rendered image (CBspheres.dae)</figcaption>
       </td>
       <td>
-        <img src="images/your_file.png" align="middle" width="400px"/>
-        <figcaption>Sample rate image (example2.dae)</figcaption>
+        <img src="images/spheres_adapt_rate.png" align="middle" width="400px"/>
+        <figcaption>Sample rate image (CBspheres.dae)</figcaption>
       </td>
     </tr>
   </table>
