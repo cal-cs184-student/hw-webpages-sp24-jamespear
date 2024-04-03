@@ -32,20 +32,47 @@
   <div>
   <h3>Goals and Deliverables</h3>
   <p>
-    For our final project, we will be building an animation that is augmented by the use of sound rendering. We will use the objects that we rendered in Homeworks 3 and dropping objects (such as cloth) in 4 as a starting point. We will drop two instances of the CBbunny object onto the ground, modeling them with different materials – such as metal and stone, and allowing the object to bounce on the ground. We will then simulate appropriate sounds based on the motion of the objects and their interactions, as well as their material properties, as described in our reference paper (Doug L. James, Jernej Barbič and Dinesh K. Pai).
+    For our final project, we will be building an animation that is augmented by the use of sound rendering. We will use the objects that we rendered in Homeworks 3 and dropping objects (such as cloth) in 4 as a starting point. We will drop two instances of the CBbunny object onto the ground, modeling them with different materials – such as metal and stone, and allowing the object to bounce on the ground. We will then simulate appropriate sounds based on the motion of the objects and their interactions, as well as their material properties, as described in our reference paper (Doug L. James, Jernej Barbič and Dinesh K. Pai). Next, we will drop a cloth onto the bunnies, and drag it across once it rests. We will simulate an appropriate sound for each interaction between the cloth and the bunny objects.
+  </p>
+  <p>
+    The system isn’t interactive, so the outputs we’ll create will be videos of rigid bodies and cloth of different materials being dropped, dragged, and the like, and emitting their respective sounds.
   </p>
   <p>
     We hope to deliver more motions and materials. While we’ll start with just dropping and dragging, other motions like cloth billowing in the wind could be a good addition, as will new materials with distinct sounds beyond just metal, stone, and wood. We’ll need to modify how rigid bodies of these materials physically bounce or rattle when dropped or dragged as well, even though the ultimate focus is sound. We also hope that we’ll have the time to make multiple surfaces for these objects to hit or be moved across: instead of just a plane representing “the ground”, we can have our objects hit dirt, wooden tables, and the like to generate different sounds. This opens the path to generating the sound from collisions between moving objects, though that is an even further stretch goal.
   </p>
   <p>
-    
+
   </p>
   </div>
   <div>
     <h3>Schedule</h3>
+    <h4>Week 1</h4>
     <p>
-
+      Begin to create our framework
     </p>
+    <p style="text-indent: 50px;">
+      Look into Homework 4 as our source code and add our intended objects (CBbunny from Homework 3)
+    </p>
+    <p>
+      Implement physical simulation for our added objects, rigid-motion simulation of CBbunny onto the plane (our “bounce”).
+    </p>
+    <p>
+      Research sound frameworks for C++
+    </p>
+    <h4>Week 2</h4>
+    <p>
+      Implement cloth collisions with rigid-bodies (CBbunny)
+    </p>
+    <p> Gather relevant information needed for sound based on collisions
+    <p> Research relevant equations related to sound and physical simulation
+    <h4>Week 3</h4>
+      <p> Implement cloth collisions with movements such as pulling or rubbing
+      <p> Implement playing sounds through speakers
+      <p> Research sounds based off pulling or rubbing of cloth
+    <h4>Week 4</h4>
+      <p> Implement collisions with other materials such as metal or wood
+      <p> Research and implement sounds dependent on new materials
+      <p> Implement stretch goals such as sound between moving objects if time permits
   </div>
   <div>
     <h3>Resources</h3>
