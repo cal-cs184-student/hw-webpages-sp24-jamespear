@@ -1,0 +1,95 @@
+<html>
+    <head>
+        <center><h1>CS184 Milestone</h1></center>
+        <center>
+            <h3>James Pearce, Anika Kartik, Sam Clark, Jacqueline Perez</h3>
+        </center>
+    </head>
+    <body>
+        <p>
+            <b>Project Summary</b>
+            <br />
+            With the codebase given in homework 4, we plan to implement
+            physically based sound onto computer animations. We will synthesize
+            appropriate sounds, based on different materials, forces, and other
+            physical processes of an animation.
+        </p>
+        <p>
+            <b>Current Project Progress</b>
+            <br />
+            Within the past week and a half we have gone through all the code of
+            HW 4 to understand the rendering pipeline of objects for the OpenGL
+            GUI. We realized that adding other objects to render to HW 4 is a
+            much more intricate process than we initially anticipated. We
+            previously anticipated that we would be able to convert dae files of
+            previous HWs to .json and render them in HW4, but upon investigating
+            the code that is not possible because we do not have a parser for
+            other objects that are not a plane, sphere, or cloth. Currently, we
+            are investigating openGL-tutorial.org in hopes that we can obtain
+            and implement a parser that would allow us to render other rigid
+            objects into the HW 4 GUI. In the last week and a half, we also
+            researched the PortAudio C++ library to implement sound into the
+            existing HW 4 project. We adjusted the CMakeLists.txt files and
+            project directory to build and implement the library, and a sine
+            tone plays for 15 seconds upon opening the application.
+        </p>
+        <p>
+            <b>Next Steps</b>
+            <br />
+            The bunny found in Homework 3 is the Stanford bunny, and is
+            available in the PLY format online. Our approach to rendering the
+            bunny will be to create our own class that inherits from
+            CollisionObject.
+            <br />
+            Our new object can be similar to the sphere object, as it already
+            contains a mesh structure. We will look into implementing a parser
+            for either the PLY or the .obj format detailed in
+            openGL-tutorial.org to read the bunny object into the required mesh
+            struct. We were hoping to adjust the sound to correspond with the
+            collisions by the bunny and cloth. We hope to first implement being
+            able to play a sound when a collision occurs, then implement playing
+            a sound that dynamically changes depending on the types of
+            collisions and materials being used. Now that we have sounds
+            playing, we can investigate where in the codebase we should play
+            sound and how to play sound buffers that dynamically change
+            depending on collisions. Due to our difficulties with adding other
+            rigid objects to our HW 4 framework our previous plan from our Final
+            Project Proposal needed to be updated. With our current progress and
+            remaining time left for the project our new work plan is as follows:
+        </p>
+        <p>
+            <b>Week 3</b>
+            <br />
+            Implement other rigid body objects to HW4 framework
+            <br />
+            Implement physical simulation for our added objects, rigid-motion
+            simulation of CBbunny onto the plane (our “bounce”).
+            <br />
+            Implement cloth collisions with rigid-bodies (CBbunny)
+            <br />
+            Implement playing sounds through speakers
+            <br />
+            If we cannot implement other rigid body objects to our HW4 framework
+            by the end of this week we will continue by adding simulation to the
+            sphere. As well as, add sphere interactions with planes and cloths.
+        </p>
+        <p>
+            <b>Week 4</b>
+            <br />
+            Implement cloth collisions with movements such as rubbing (if time
+            permits pulling as well)
+            <br />
+            Research sounds based off rubbing of cloth (& pulling)
+            <br />
+            Implement collisions with other materials such as metal or wood
+            <br />
+            Research and implement sounds dependent on new materials
+            <br />
+            Implement stretch goals such as sound between moving objects if time
+            permits
+        </p>
+        <a href=https://docs.google.com/presentation/d/1aBOteXa15GrGrC3YGRy4stViywixHZAHTUad6YInn18/edit#slide=id.p>Link to slides</a>
+        <br>
+        <a href=https://drive.google.com/file/d/1VQco7a7ZCUOuY-vbQd1gAC4FCxBH2wml/view>Link to video</a>
+    </body>
+</html>
