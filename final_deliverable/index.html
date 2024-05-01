@@ -1,0 +1,68 @@
+<html>
+    <head>
+        <font size="7">
+            <center>
+                <b>FINAL REPORT</b>
+            </center>
+        </font>
+    </head>
+    <body>
+        <center>
+            <h1>
+                Physically Based Sound for Computer Animation and Virtual
+                Environments
+            </h1>
+        </center>
+        <center>
+            <h2>Anika Kartik, Sam Clark, Jacqueline Perez, and James Pearce</h2>
+        </center>
+        <h1>Abstract</h1>
+        <p>
+            Working towards synthesizing sound with a cloth simulator. With Homework 4 ClothSim as our foundational framework we implemented various sounds and shaders to represent different textures. Each scene has a sound specific to it, depending on the texture of the objects as well as the interaction between the objects. We have built a dynamic system where the sound depends on the cloth parameters, such as damping, density, and spring constants. With these parameters we created a heuristic function that adapts the sound to the setting we have applied to the cloth. Additionally we have also implemented new shaders where now the cloth and the collision object are able to have differing shaders.
+        </p>
+        <h1>Technical Approach</h1>
+        <p>
+            ClothSim is a real-time simulation of cloth using a mass and spring based system, where in Homework 4 we represented the cloth through data structures and simulated its movement through numerical integration and by applying physical constraints. One of the key components of these movements was collisions with other objects and itself. To build off this real-time simulation we aimed to add synthesized sound to these cloth movements and calibrate it based on the textures of the cloth and the collision object.
+        </p>
+        <p>
+            Upon further research of the Homework 4 framework and the GUI it runs (nanogui widget library for OpenGL), we were able to add various shaders to represent different textures that we were working with. We discovered that through .frag files we were able to add more shader options to the drop down menu in the GUI, where we could switch between them while the application was being run. Through adding png image files to our textures folder and creating .frag files, following the structure from our Texture.frag file, in our shaders folder we were able to add the specific textures we wanted to our objects.
+        </p>
+        <p>
+            The next obstacle we ran into was to represent each object in its own individual texture. Starting off, the base ClothSim framework had been set up so that both the cloth and the collision object had the same shader. Therefore, whenever the shader was changed it was changed for both the cloth and collision object. We implemented varying shaders between the cloth and the collision object by building a new shader within clothSimulator.cpp in ClothSim. In loadShaders() we create a new variable that represents the index of the collision object shader, in addition to the original active shader index. With this index we then in the drawContents() function we bind both the active shader and collision shader to UserShaders as well as create an instance of a GLShader for each. Similarly to the active shader we then prepare the camera projection matrix, but in this instance only for the NORMALS and PHONG cases. We do need to consider the WIREFRAME case for collision objects since in this framework collision objects are not represented as wireframe meshes like the cloth is. After completing the camera projection matrix for the collision GLShader we then pass this into the collision object’s render function to be rendered to in its own shader. With this addition, the GUI now has two drop down menus for choosing a shader, one for the cloth (the top one) and one for the collision objects (the bottom one).
+        </p>
+        <p>
+            Our approach to synthesizing sound into our cloth simulation changed many times as we did research on the varied ways to go about implementing it. To incorporate sound to the existing Homework 4 project we added the PortAudio C++ library. By modifying the CMakeLists.txt files and project directory to build and implement the library we were able to initially have our program play a sine tone for 15 seconds upon opening the application.
+        </p>
+        <p>
+            Next, we tried to create sounds of the cloth using additive synthesis through the summation of several different sine functions. However, we found there was little research into additive synthesis to create cloth sounds, so we decided to take an approach similar to the Cornell SIGGRAPH paper Motion-driven Concatenative Synthesis of Cloth Sounds (https://www.cs.cornell.edu/projects/Sound/cloth/cloth2012.pdf). In this approach, we start with a sound recorded in real life of the virtual motion we are attempting to capture, and we adjust the sound based on the damping, spring, and density constants associated with the virtual object. However we varied from this approach by modifying our signal directly by our constants rather than calculating an average between real life and digitally synthesized sound.
+        </p>
+        <p>
+            In order to conduct this approach, we needed to add libsndfile, a C library that reads .wav files, to our CMakeLists.txt and main files. In order to adjust the sound in real time, we also needed to pass in our cloth parameters to our portaudio callback function. We created a struct of our sound file (loaded in by libsndfile), our sound file metadata, and our cloth parameters. By reading our sound file to an array and writing to our output buffer in a for loop, we are able to adjust the sound sent to our output buffer by the damping, spring, and density constants in real time using our callback function.
+        </p>
+        <h1>Results</h1>
+        <p>
+        </p>
+        <h1>References</h1>
+        <p>
+            Steven S. An, Doug L. James, and Steve Marschner, Motion-driven Concatenative Synthesis of
+            Cloth Sounds, ACM Transaction on Graphics (SIGGRAPH 2012), August, 2012. At
+            https://www.cs.cornell.edu/projects/Sound/cloth/
+        </p>
+        <h1>Contributions from each team member<h1>
+            <p>
+                Anika:
+            </p>
+            <p>
+                Jacky:
+            </p>
+            <p>
+                Sam:
+            </p>
+            <p>
+                James:
+            </p>
+        <a href=https://docs.google.com/presentation/d/1tewcLL6TFKIJIkGgx0Cl2lvp5IiPqfBc6qWhBRgP3Tk/edit#slide=id.p>Link to slides</a>
+        <br>
+        <a href=https://drive.google.com/file/d/1VQco7a7ZCUOuY-vbQd1gAC4FCxBH2wml/view>Link to video</a>
+    </body>
+</html>
